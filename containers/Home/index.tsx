@@ -1,5 +1,16 @@
-import { Box, Container, Heading, Image, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Container,
+  Heading,
+  Image,
+  Text,
+  SimpleGrid,
+  GridItem,
+  LinkBox,
+  LinkOverlay,
+} from '@chakra-ui/react';
 import type { HomeProps } from '@/pages';
+import MovieCard from './components/MovieCard';
 
 const Home = ({ nasa, movies }: HomeProps) => {
   console.log(nasa);
@@ -15,14 +26,24 @@ const Home = ({ nasa, movies }: HomeProps) => {
   const formattedDate = today.toLocaleDateString('en-US', options);
 
   return (
-    <Box as="main" minHeight="100vh">
-      <Container>
+    <Box as="main">
+      <Container maxW="container.xl">
         <Heading>NASA: Picture of the Day</Heading>
         <Text>{formattedDate}</Text>
         <Image src={nasa?.hdurl} alt={nasa?.title} />
       </Container>
-      <Container>
-        <h2>movie list</h2>
+      <Container maxW="container.xl">
+        <SimpleGrid minChildWidth="250px" spacing="25px" margin="sm">
+          {movies
+            ? movies.results.map((movie) => {
+                return (
+                  <GridItem key={movie.id}>
+                    <MovieCard movie={movie} />
+                  </GridItem>
+                );
+              })
+            : null}
+        </SimpleGrid>
       </Container>
     </Box>
   );
