@@ -1,12 +1,15 @@
-import styles from '@/styles/Home.module.css';
+import { Box, Container } from '@chakra-ui/react';
 
 const Home = () => {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <h1>Hello World</h1>
-      </div>
-    </main>
+    <Box as="main" minHeight="100vh">
+      <Container>
+        <h1>nasa picture</h1>
+      </Container>
+      <Container>
+        <h2>movie list</h2>
+      </Container>
+    </Box>
   );
 };
 
