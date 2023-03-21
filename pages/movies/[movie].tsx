@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import MoviesContainer from '@/containers/Movies';
-
+export { getServerSideProps } from '@/containers/Movies';
 export default function Movies() {
   return (
     <>

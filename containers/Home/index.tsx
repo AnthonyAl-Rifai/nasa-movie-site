@@ -1,6 +1,10 @@
 import { Box, Container } from '@chakra-ui/react';
+import type { HomeProps } from '@/pages';
 
-const Home = () => {
+const Home = ({ nasa, movies }: HomeProps) => {
+  console.log(nasa);
+  console.log(movies);
+
   return (
     <Box as="main" minHeight="100vh">
       <Container>

@@ -11,3 +11,10 @@ const Movies = () => {
 };
 
 export default Movies;
+
+export async function getServerSideProps() {
+  console.log('hello from movies');
+  return {
+    props: {},
+  };
+}
