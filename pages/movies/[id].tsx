@@ -16,8 +16,11 @@ export default function Movies({ movie }: MoviesProps) {
   return (
     <>
       <Head>
-        <title>current movie</title>
-        <meta name="description" content="description of current movie" />
+        <title>{movie?.title || 'Uh Oh!'}</title>
+        <meta
+          name="description"
+          content={movie?.overview || 'Movie not found'}
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
