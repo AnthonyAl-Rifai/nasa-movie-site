@@ -27,12 +27,34 @@ const Home = ({ nasa, movies }: HomeProps) => {
 
   return (
     <Box as="main">
+      <Box
+        position="fixed"
+        top="-50%"
+        left="-50%"
+        width="200%"
+        height="200%"
+        zIndex="-1"
+      >
+        <Image
+          src={nasa?.hdurl}
+          alt={nasa?.title}
+          position="absolute"
+          top="0"
+          left="0"
+          right="0"
+          bottom="0"
+          margin="auto"
+          minWidth="50%"
+          minHeight="50%"
+        />
+      </Box>
       <Container maxW="container.xl">
-        <Heading>NASA: Picture of the Day</Heading>
-        <Text>{formattedDate}</Text>
-        <Image src={nasa?.hdurl} alt={nasa?.title} />
+        <Box my="30px">
+          <Heading>NASA: Picture of the Day</Heading>
+          <Text>{formattedDate}</Text>
+        </Box>
       </Container>
-      <Container maxW="container.xl">
+      <Container maxW="container.xl" marginTop="100vh" paddingBottom="50px">
         <SimpleGrid minChildWidth="250px" spacing="25px" margin="sm">
           {movies
             ? movies.results.map((movie) => {

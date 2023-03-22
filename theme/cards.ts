@@ -21,7 +21,9 @@ const sizes = {
       borderRadius: '10px',
       padding: '10px',
     },
-    header: {},
+    header: {
+      paddingBottom: '5px',
+    },
     body: {},
     footer: {},
   }),

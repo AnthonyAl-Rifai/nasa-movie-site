@@ -8,3 +8,15 @@ export const convertRuntime = (runtime: number) => {
     return null;
   }
 };
+
+export const truncate = (overview: string) => {
+  if (overview) {
+    const splitOverview = overview.split(' ');
+    if (splitOverview.length >= 20) {
+      return `${overview.split(' ').slice(0, 20).join(' ')}...`;
+    }
+    return overview;
+  } else {
+    return null;
+  }
+};
