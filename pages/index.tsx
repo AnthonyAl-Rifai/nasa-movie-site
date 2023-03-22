@@ -45,6 +45,7 @@ export interface Movie {
   poster_path: string | null;
   production_countries: ProductionCountry[];
   release_date: string;
+  runtime: number;
   spoken_languages: SpokenLanguage[];
   status: string;
   tagline: string;
