@@ -1,6 +1,9 @@
 import { Box, Container } from '@chakra-ui/react';
+import type { MoviesProps } from '@/pages/movies/[id]';
 
-const Movies = () => {
+const Movies = ({ movie }: MoviesProps) => {
+  console.log('movie: ', movie);
+
   return (
     <Box as="main" minHeight="100vh">
       <Container>
@@ -11,10 +14,3 @@ const Movies = () => {
 };
 
 export default Movies;
-
-export async function getServerSideProps() {
-  console.log('hello from movies');
-  return {
-    props: {},
-  };
-}
