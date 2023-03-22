@@ -14,23 +14,23 @@ import type { Movie } from '@/pages';
 const MovieCard = ({ movie }: { movie: Movie }) => {
   return (
     <LinkBox>
-      <Card minH="4xl" align="center" padding="10px">
+      <Card>
         <Box>
-          {movie.poster_path ? (
-            <Image
-              src={`https://image.tmdb.org/t/p/original///${movie.poster_path}`}
-              alt={movie.original_title}
-              borderRadius="md"
-            />
-          ) : null}
+          <Image
+            src={`https://image.tmdb.org/t/p/original///${movie.poster_path}`}
+            alt={movie.original_title}
+            borderRadius="md"
+            boxSize="sm"
+            fallbackSrc="/poster-not-found.png"
+          />
         </Box>
-        <LinkOverlay href={`/movies/${movie.id}`}>
-          <CardHeader>
-            <Heading as="h2" size="md">
+        <CardHeader>
+          <Heading as="h2" size="md">
+            <LinkOverlay href={`/movies/${movie.id}`}>
               {movie.original_title}
-            </Heading>
-          </CardHeader>
-        </LinkOverlay>
+            </LinkOverlay>
+          </Heading>
+        </CardHeader>
 
         <CardBody>
           <Heading as="h4" size="sm">
