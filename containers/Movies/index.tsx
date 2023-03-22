@@ -72,7 +72,7 @@ const Movies = ({ movie }: MoviesProps) => {
             </Box>
           </GridItem>
 
-          <GridItem colSpan={3}>
+          <GridItem colSpan={3} rowSpan={2}>
             <Heading>{movie.title}</Heading>
             <Text fontWeight="bold" color="#888888">
               {movie.tagline}
@@ -85,11 +85,10 @@ const Movies = ({ movie }: MoviesProps) => {
                 <span key={genre.id}>{genre.name} · </span>
               ))}
             </Text>
-          </GridItem>
-
-          <GridItem colSpan={3}>
-            {movie.overview ? <Heading size="lg">Overview</Heading> : null}
-            <Text fontWeight="bold">{movie.overview}</Text>
+            <Box marginTop="30px">
+              {movie.overview ? <Heading size="lg">Overview</Heading> : null}
+              <Text fontWeight="bold">{movie.overview}</Text>
+            </Box>
           </GridItem>
 
           <GridItem colSpan={5}>
