@@ -5,7 +5,7 @@ export const convertRuntime = (runtime: number) => {
     const remainingMinutes = minutes % 60;
     return `${hours} hr ${remainingMinutes} min`;
   } else {
-    return null;
+    return '';
   }
 };
 
@@ -20,3 +20,13 @@ export const truncate = (overview: string) => {
     return null;
   }
 };
+
+const today: Date = new Date();
+const options: Intl.DateTimeFormatOptions = {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+};
+
+export const formattedDate = today.toLocaleDateString('en-US', options);

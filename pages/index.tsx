@@ -63,8 +63,8 @@ export interface MoviesResponse {
 }
 
 export interface HomeProps {
-  nasa?: NasaResponse;
-  movies?: MoviesResponse;
+  nasa: NasaResponse | null;
+  movies: MoviesResponse | null;
 }
 
 export default function Home({ nasa, movies }: HomeProps) {
@@ -82,31 +82,34 @@ export default function Home({ nasa, movies }: HomeProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  let nasa: NasaResponse | undefined;
-  let movies: MoviesResponse | undefined;
+  let nasa: NasaResponse | null = null;
+  let movies: MoviesResponse | null = null;
 
   try {
-    const nasaResponse = await fetch(
-      `https://api.nasa.gov/planetary/apod?api_key=${process.env.NASA_API_KEY}`
-    );
+    const [nasaResponse, moviesResponse] = await Promise.all([
+      fetch(
+        `https://api.nasa.gov/planetary/apod?api_key=${process.env.NASA_API_KEY}`
+      ),
+      fetch(
+        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_DB_KEY}&language=en-US&query=NASA&include_adult=false&1`
+      ),
+    ]);
+
     nasa = await nasaResponse.json();
-  } catch (error) {
-    console.error(error);
-  }
-
-  try {
-    const moviesResponse = await fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_DB_KEY}&language=en-US&query=NASA&include_adult=false&1`
-    );
     movies = await moviesResponse.json();
+    return {
+      props: {
+        nasa,
+        movies,
+      },
+    };
   } catch (error) {
     console.error(error);
+    return {
+      props: {
+        nasa: null,
+        movie: null,
+      },
+    };
   }
-
-  return {
-    props: {
-      nasa,
-      movies,
-    },
-  };
 };

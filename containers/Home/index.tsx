@@ -10,48 +10,28 @@ import {
 import type { HomeProps, MoviesResponse, Movie } from '@/pages';
 import MovieCard from './components/MovieCard';
 import { useState, useEffect, useCallback } from 'react';
-
-function useScrollEnd(distanceFromEnd = 250) {
-  const [isNearEnd, setIsNearEnd] = useState(false);
-
-  useEffect(() => {
-    function handleScroll() {
-      const scrollTop = document.documentElement.scrollTop;
-      const offsetHeight = document.documentElement.offsetHeight;
-      const clientHeight = document.documentElement.clientHeight;
-
-      if (offsetHeight - (scrollTop + clientHeight) <= distanceFromEnd) {
-        setIsNearEnd(true);
-      } else {
-        setIsNearEnd(false);
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [distanceFromEnd]);
-
-  return { isNearEnd, setIsNearEnd };
-}
+import { useScrollEnd } from '@/hooks/useScrollEnd';
+import { formattedDate } from '@/utils';
 
 const Home = ({ nasa, movies: initialMovies }: HomeProps) => {
   const [isFetching, setIsFetching] = useState(false);
   const [page, setPage] = useState(1);
   const [movies, setMovies] = useState(initialMovies?.results || []);
+  // custom hook to determine if the user has scrolled near the bottom of the page
   const { isNearEnd, setIsNearEnd } = useScrollEnd();
 
   const fetchMovies = useCallback(async () => {
     try {
       setIsFetching(true);
+      // to prevent api key from being exposed to the client, make an api call to the backend
       const response = await fetch(`/api/search?page=${page + 1}`);
       const results: MoviesResponse | undefined = await response.json();
+      // add new movie results to existing movies
       const newMovies: Movie[] = [...movies, ...(results?.results || [])];
       setMovies(newMovies);
       setPage(page + 1);
       setIsFetching(false);
+      // to prevent an infinite loop of fetching the next page, setIsNearEnd to false
       setIsNearEnd(false);
     } catch (error) {
       setIsFetching(false);
@@ -60,20 +40,12 @@ const Home = ({ nasa, movies: initialMovies }: HomeProps) => {
   }, [page, movies, setIsNearEnd]);
 
   useEffect(() => {
+    // fetches the next page of movies from the api/search endpoint when the user is near the bottom of the page
     if (isFetching) return;
     if (isNearEnd) {
       fetchMovies();
     }
   }, [isNearEnd, isFetching, fetchMovies]);
-
-  const today: Date = new Date();
-  const options: Intl.DateTimeFormatOptions = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  };
-  const formattedDate = today.toLocaleDateString('en-US', options);
 
   return (
     <Box as="main">

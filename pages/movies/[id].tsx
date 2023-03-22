@@ -9,7 +9,7 @@ interface QueryParams extends ParsedUrlQuery {
 }
 
 export interface MoviesProps {
-  movie?: Movie;
+  movie: Movie | null;
 }
 
 export default function Movies({ movie }: MoviesProps) {
@@ -33,21 +33,26 @@ export const getServerSideProps: GetServerSideProps<
   MoviesProps,
   QueryParams
 > = async (context) => {
-  console.log('hello from movies');
   const { id } = context.params || {};
-  let movie: Movie | undefined;
+  let movie: Movie | null = null;
   try {
     const moviesResponse = await fetch(
       `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.MOVIE_DB_KEY}&language=en-US`
     );
-    movie = await moviesResponse.json();
+    const result = await moviesResponse.json();
+    // the response returns an object with a success property only when an error occurs
+    if (result.success !== false) movie = result;
+    return {
+      props: {
+        movie,
+      },
+    };
   } catch (error) {
     console.error(error);
+    return {
+      props: {
+        movie: null,
+      },
+    };
   }
-
-  return {
-    props: {
-      movie,
-    },
-  };
 };
